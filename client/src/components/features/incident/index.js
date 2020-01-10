@@ -1,0 +1,1 @@
+export { default as Incident } from './incident-view';

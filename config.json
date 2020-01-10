@@ -1,0 +1,10 @@
+{
+    "development": {
+        "DBHost": "http://127.0.0.1:5984",
+        "node_port": 4000
+    },
+    "production": {
+        "DBHost": "http://127.0.0.1:5984",
+        "node_port": 3000
+    }
+}
