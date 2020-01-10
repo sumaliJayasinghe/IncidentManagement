@@ -2,7 +2,6 @@ var users = require('../../../database/models/user');
 var util = require('../../utility/util')
 var jwt = require('jsonwebtoken');
 
-
 var authenticate = (req, res) => {
 
     if (!req.body.username || !req.body.password) {
@@ -11,22 +10,25 @@ var authenticate = (req, res) => {
         return res.status(401).end()
     }
 
-    const user = users.getUsersById(req.body.username, (err, data) => {
-        console.log(data)
-        // if (err || data[username] !== req.body.password) {
-        //     throw err;
-        // }
-        if (user) {
-            const token = jwt.sign({ sub: user.id, role: user.role }, jwtKey, {
+    const user = users.getUsersById(req.body.username, (err, result) => {
+        let data = result.data;
+
+        if (data && data._id) {
+
+            const token = jwt.sign({ sub: data.userId, role: data.role.code }, global.gConfig.jwtKey, {
                 algorithm: 'HS256',
-                expiresIn: jwtExpirySeconds
+                expiresIn: global.gConfig.jwtExpirySeconds
             });
-            users.update(req.body, (err, data) => {
+
+            users.update(data, (err, data) => {
                 if (err) {
                     throw err;
                 }
-                res.cookie('token', token, { maxAge: jwtExpirySeconds * 1000 })
-                res.send(util.structureResponse(200, data));
+
+
+                res.cookie('token', token, { maxAge: global.gConfig.jwtExpirySeconds * 1000 });
+
+                res.send(util.structureResponse(200, result.data));
             });
 
         }

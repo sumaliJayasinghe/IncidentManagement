@@ -1,0 +1,14 @@
+{
+    "development": {
+        "DBHost": "http://127.0.0.1:5984",
+        "node_port": 8000,
+        "jwtKey": "my_secret_key",
+        "jwtExpirySeconds": 300
+    },
+    "production": {
+        "DBHost": "http://127.0.0.1:5984",
+        "node_port": 3000,
+        "jwtKey": "my_prd_secret_key",
+        "jwtExpirySeconds": 300
+    }
+}

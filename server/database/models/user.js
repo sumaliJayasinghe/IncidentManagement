@@ -18,6 +18,7 @@ function createUser(user, cb) {
 };
 
 function updateUser(user, cb) {
+    user.lastLoggedInDate = new Date().toISOString();
     user.updatedDate = new Date().toISOString();
     userDB.get(user._id, errors.wrapNano(function (err, currentUser) {
         if (err) {
@@ -40,11 +41,8 @@ function deleteUser(id, rev, cb) {
 };
 
 function getUsersByRole(id, cb) {
-    console.log(id)
     userDB.view('by_asignee', 'by_asignee', { keys: [id], include_docs: true },
         errors.wrapNano(function (err, result) {
-            console.log(err);
-            console.log(result)
             if (err) {
                 cb(err);
             } else {
@@ -60,35 +58,15 @@ function getUsersByRole(id, cb) {
 };
 
 function getUsersById(id, cb) {
-    console.log(id)
     userDB.view('by_id', 'by_id', { 'key': id, 'include_docs': true },
         errors.wrapNano(function (err, result) {
             if (err) {
                 cb(err);
             } else {
-                console.log(result)
                 var res = {
-                    dataList: []
+                    data: result.rows[0].doc
                 }
-                result.rows.forEach(row => {
-                    res.dataList.push(row.doc)
-                });
                 cb(null, res);
             }
         }));
-    // userDB.view('by_id', 'by_id', { 'key': id, 'include_docs': true },
-    //     errors.wrapNano(function (err, result) {
-    //         if (err) {
-    //             cb(err);
-    //         } else {
-    //             var res = {
-    //                 dataList: []
-    //             }
-    //             console.log(result)
-    //             result.rows.forEach(row => {
-    //                 res.dataList.push(row.doc)
-    //             });
-    //             cb(null, res);
-    //         }
-    //     }));
 };
