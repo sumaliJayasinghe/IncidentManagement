@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+    couchbase:
+        image: couchbase-custom
+        ports:
+            - 8091:8091
+
+    nodejs:
+        image: node-custom
+        ports:
+            - 8000:8000
+        environment:
+            - NODE_ENV=dev
+            - APPLICATION_PORT=8000
+        restart: always

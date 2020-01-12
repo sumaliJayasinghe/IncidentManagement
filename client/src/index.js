@@ -26,8 +26,8 @@ const routing = (
     <Provider store={initstore}>
         <Router history={history}>
             <div>
-                <Route path='/app' component={PrivateLayout} />
-                <Route path='/' component={LoginLayout} />
+                <Route path='/' component={PrivateLayout} />
+                <Route exact path='/login' component={App} />
                 {/* <Route path="incident/:id" component={Incident} /> */}
             </div>
         </Router>

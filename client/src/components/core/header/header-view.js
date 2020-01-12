@@ -38,7 +38,7 @@ class Header extends Component {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link className="link-home" onClick={this.loadDashboard}>Home</Nav.Link>
+                            <Nav.Link className="link-home" href="/home" >Home</Nav.Link>
                             <Nav.Link className="link-usermanagement" >User Management</Nav.Link>
 
                         </Nav>
@@ -51,7 +51,7 @@ class Header extends Component {
                                 <NavDropdown.Item href="#action/3.2">My Profile</NavDropdown.Item>
                                 <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action/3.4">Logout</NavDropdown.Item>
+                                <NavDropdown.Item href="/login">Logout</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                     </Navbar.Collapse>

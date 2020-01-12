@@ -1,11 +1,10 @@
 import { combineReducers, createStore } from 'redux';
-import loginReducer from './reducers/loginReducer'
-import incidentReducer from './reducers/incidentReducer'
+import { userReducer, incidentReducer } from './reducers';
 
 export default () => {
     console.log("HAPPENS")
     return createStore(combineReducers({
-        login: loginReducer,
+        user: userReducer,
         incidents: incidentReducer
     }), window.devToolsExtension && window.devToolsExtension())
 }

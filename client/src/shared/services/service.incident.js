@@ -23,8 +23,15 @@ class IncidentService {
     /**
      * Retrieve all incidents
      */
-    async getAllIncidents() {
-        return fetch(this.config.GET_ALL_INCIDENTS_URL)
+    async getAllIncidents(data) {
+        return fetch(this.config.GET_ALL_INCIDENTS_URL, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
             .then(response => {
                 if (!response.ok) {
                     this.handleResponseError(response);

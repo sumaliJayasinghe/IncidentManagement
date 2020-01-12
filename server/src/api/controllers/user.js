@@ -35,6 +35,7 @@ var authenticate = (req, res) => {
     });
 
 }
+
 var createUser = (req, res) => {
     req.body.createdDate = new Date().getTime();
     users.create(req.body, (err, data) => {
@@ -46,7 +47,7 @@ var createUser = (req, res) => {
 }
 
 var getUsersByRole = (req, res) => {
-    users.getUsersByRole(req.body, (err, data) => {
+    users.getUsersByRole(req.body.roleId, (err, data) => {
         if (err) {
             throw err;
         }

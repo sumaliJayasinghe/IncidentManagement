@@ -7,6 +7,7 @@ module.exports = {
     create: schemas.validating('incident', 'create', createIncident),
     update: updateIncident,
     getAll: getAllIncidents,
+    getIncidents: getIncidents,
     getById: getIncidentById,
     delete: deleteIncident,
     getIncidentByAssignee: getIncidentByAssignee,
@@ -54,6 +55,31 @@ function updateIncident(incident, cb) {
 function getAllIncidents(cb) {
     incidentsDB.list({
         include_docs: true
+    }, errors.wrapNano(function (err, result) {
+        if (err) {
+            cb(err);
+        } else {
+            // var res = {
+            var dataList = []
+            // }
+            result.rows.forEach(row => {
+                if (row.doc.incidentId)
+                    dataList.push(row.doc)
+            });
+            cb(null, dataList);
+
+        }
+    }));
+};
+
+function getIncidents(req, cb) {
+
+    console.log(req.page);
+    console.log(req.limit);
+    incidentsDB.list({
+        include_docs: true,
+        limit: req.limit,
+        skip: (req.page == 1) ? 0 : req.page * req.limit
     }, errors.wrapNano(function (err, result) {
         if (err) {
             cb(err);

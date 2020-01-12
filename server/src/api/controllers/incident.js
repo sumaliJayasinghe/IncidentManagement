@@ -7,8 +7,18 @@ var util = require('../../utility/util')
  * @param {object} req request
  * @param {object} res response
  */
-var getIncidents = (req, res) => {
+var getAllIncidents = (req, res) => {
     incidents.getAll((err, data) => {
+        if (err) {
+            throw err;
+        }
+        res.send(util.structureResponse(200, data));
+    })
+}
+
+var getIncidents = (req, res) => {
+    console.log(req.body)
+    incidents.getIncidents(req.body, (err, data) => {
         if (err) {
             throw err;
         }
@@ -113,6 +123,7 @@ var deleteIncident = (req, res) => {
 
 module.exports = {
     getIncidents: getIncidents,
+    getAllIncidents: getAllIncidents,
     createIncident: createIncident,
     getIncidentsById: getIncidentsById,
     getIncidentByAsigneeId: getIncidentByAsigneeId,

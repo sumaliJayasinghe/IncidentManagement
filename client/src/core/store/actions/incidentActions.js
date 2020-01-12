@@ -20,7 +20,6 @@ function getIncident(newIncident) {
 }
 
 function getAllIncident(newIncident) {
-    // alert(newIncident)
     return {
         type: constants.LIST_INCIDENTS,
         payload: {

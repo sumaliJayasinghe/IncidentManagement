@@ -55,6 +55,35 @@
                     }
                 }
             }
+        },
+        "/incidents/getIncidents": {
+            "post": {
+                "tags": [
+                    "Incidents"
+                ],
+                "description": "Get incidents in system",
+                "parameters": [
+                    {
+                        "name": "incident",
+                        "in": "body",
+                        "description": "Get incidents by page",
+                        "schema": {
+                            "$ref": "#/definitions/GetIncident"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get incidents by page",
+                        "schema": {
+                            "$ref": "#/definitions/GetIncident"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -145,6 +174,22 @@
                             "type": "string"
                         }
                     }
+                }
+            }
+        },
+        "GetIncident": {
+            "required": [
+                "page",
+                "limit"
+            ],
+            "properties": {
+                "page": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "limit": {
+                    "type": "string",
+                    "uniqueItems": true
                 }
             }
         }

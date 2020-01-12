@@ -14,4 +14,4 @@ COPY . .
 EXPOSE 8000
 
 # You can change this
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "start" ]

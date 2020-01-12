@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import './dashboard-styles.css'
-import { Table, Container, Button } from 'react-bootstrap';
+import { Table, Container, Pagination } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { getIncident, getAllIncident } from '../../../core/store/actions/incidentActions';
 // import history from '../../../history';
 import IncidentService from '../../../shared/services/service.incident';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 class Home extends Component {
-
+    items = [];
     constructor(props) {
         super(props);
         this.incidentService = new IncidentService();
@@ -15,30 +15,32 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        this.incidentService.getAllIncidents().then(item => {
+        this.incidentService.getAllIncidents({ page: 1, limit: 10 }).then(item => {
             console.log(item)
             this.props.onUpdateincidentList(item);
             console.log(this.props)
         });
+
+        var active = 2;
+
+        for (let number = 1; number <= 5; number++) {
+            this.items.push(
+                <Pagination.Item key={number} active={number === active}>
+                    {number}
+                </Pagination.Item>,
+            );
+        }
     }
 
     navigateToIncident = (item) => {
-        // console.log(item)
         var data = {
             "dataList": []
         };
-        // data.dataList.push(item)
-        this.props.selectIncident(item)
-        // console.log(this.props.incidents)
-        // history.push('/incident', {
-        //     view: true
-        // });
-
-
+        console.log(item)
+        this.props.selectIncident(item);
     }
 
     render() {
-        // console.log(this.props.incidents.dataList)
         return (
             <Container className="t-view">
                 <div className="title">
@@ -74,6 +76,7 @@ class Home extends Component {
                         })}
 
                     </tbody>
+                    <Pagination>{this.items}</Pagination>
                 </Table>
             </Container>
         );
