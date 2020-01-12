@@ -1,21 +1,23 @@
 # IncidentManagement
-IncidentManagement
 
-Installation and run
-
-client
+## Installation and run application
+Client - 
+```bash
 npm start
-
-server
+```
+Server - 
+```bash
 npm start
+```
 
-Dependancies 
-used "nano" to connect to couch database
-used "joi" to validate schema
-used "jsonwebtoken" for JWT authentication in login
-used "swagger-ui-express" to have swagger
+##Dependancies 
 
-Server
+used "```nano```" to connect to couch database
+used "```joi```" to validate schema
+used "```jsonwebtoken```" for JWT authentication in login
+used "```swagger-ui-express```" to have swagger
+
+```Server```
     "async": "^3.1.0",
     "body-parser": "^1.19.0",
     "boom": "^7.3.0",
@@ -31,15 +33,15 @@ Server
     "nano": "^8.1.0" 
     "swagger-ui-express": "^4.1.2"
 
-Client
+```Client```
     "bootstrap": "^4.4.1",
     "react-redux": "^7.1.3",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2"
 
-Folder Structure
+##Folder Structure
 
-Server 
+```Server ```
 
         src
         |
@@ -88,7 +90,7 @@ Server
         test
         |
 
-Server 
+```Client ```
 
        src
         |
