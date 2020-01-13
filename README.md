@@ -25,10 +25,25 @@ npm install couchbase --save
 
 used "```joi```" to validate schema
 
+```bash
+npm install joi --save
+```
+
 used "```jsonwebtoken```" for JWT authentication in login
 
+```bash
+npm install jsonwebtoken --save
+```
 used "```swagger-ui-express```" to have swagger
 
+```bash
+npm install swagger-ui-expres --save
+```
+used "```chai```" for unit testing
+
+```bash
+npm install swagger-ui-expres --save
+```
 Server -
     "async": "^3.1.0",
     "body-parser": "^1.19.0",
