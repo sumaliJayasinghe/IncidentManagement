@@ -45,6 +45,7 @@ used "```chai```" for unit testing
 npm install swagger-ui-expres --save
 ```
 Server -
+
     "async": "^3.1.0",
     "body-parser": "^1.19.0",
     "boom": "^7.3.0",
@@ -59,7 +60,9 @@ Server -
     "mocha": "^6.2.2",
     "nano": "^8.1.0" 
     "swagger-ui-express": "^4.1.2"
+    
 Client -
+
     "bootstrap": "^4.4.1",
     "react-redux": "^7.1.3",
     "react-router": "^5.1.2",
@@ -69,20 +72,20 @@ Client -
 
 Server
 
-        src
+        src       handle application logic
         |
         -----| app.js  
         -----| api
                 |
-                ------| controller
+                ------| controller    handle API logics
                             |
                             ------| incident.js
                             ------| user.js
-                ------| routes
+                ------| routes        API routing
                             |
                             ------| incident.js
                             ------| user.js
-                ------| services
+                ------| services 
                             |
                             ------| incident.service.js
                             ------| user.service.js
