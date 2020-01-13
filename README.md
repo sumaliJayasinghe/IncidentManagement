@@ -175,21 +175,21 @@ Client
                            |------| incident-view.js
                            |------| index.js
         
+
 Each incident have following status in its lifecycle
 
-NEW
-RE_OPENED
-ASSIGNED
-IN_PROGRESS
-RESOLVED
-CLOSED
-CANCELED
+NEW,
+RE_OPENED,
+ASSIGNED,
+IN_PROGRESS,
+RESOLVED,
+CLOSED,
+CANCELED,
 
-there will be multiple roles in the system, for now we use only 3
+there will be multiple roles in the system, for now we use only 2
 
-SERVICE_DESK
-INCIDENT_ANALYST
-INCIDENT_MANAGER
+ADMIN,
+USER
 
-can run swagger localhost:9000
+can run swagger https://localhost:9000
 
