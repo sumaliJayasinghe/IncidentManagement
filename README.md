@@ -72,12 +72,12 @@ Client -
 
 Server
 
-        src       handle application logic
+        src       
         |
         -----| app.js  
         -----| api
                 |
-                ------| controller    handle API logics
+                ------| controller    
                             |
                             ------| incident.js
                             ------| user.js
