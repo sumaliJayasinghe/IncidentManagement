@@ -12,9 +12,21 @@ npm start
 
 ## Dependancies 
 
-used "```nano```" to connect to couch database
+used "```nano```" to connect to couch database. you can use ```couchbase```
+
+```bash
+npm install nano --save
+```
+or 
+
+```bash
+npm install couchbase --save
+```
+
 used "```joi```" to validate schema
+
 used "```jsonwebtoken```" for JWT authentication in login
+
 used "```swagger-ui-express```" to have swagger
 
 Server -
