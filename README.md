@@ -55,7 +55,7 @@ used "```chai```" for unit testing
 ```bash
 npm install swagger-ui-expres --save
 ```
-Server -
+### Server -
 
     "async": "^3.1.0",
     "body-parser": "^1.19.0",
@@ -72,7 +72,7 @@ Server -
     "nano": "^8.1.0" 
     "swagger-ui-express": "^4.1.2"
     
-Client -
+### Client -
 
     "bootstrap": "^4.4.1",
     "react-redux": "^7.1.3",
@@ -82,11 +82,11 @@ Client -
 
 ## Folder Structure
 
-Server
+### Server
 
 ![Image of server folder strcuture](https://github.com/sumaliJayasinghe/IncidentManagement/blob/master/images/server.png)
 
-Client
+### Client
 
 ![Image of client folder strcuture](https://github.com/sumaliJayasinghe/IncidentManagement/blob/master/images/client.png)
         
