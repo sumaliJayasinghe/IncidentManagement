@@ -1,21 +1,51 @@
 # IncidentManagement
-IncidentManagement
 
-Installation and run
-
-client
+## Installation and run application
+Client - 
+```bash
 npm start
-
-server
+```
+Server - 
+```bash
 npm start
+```
 
-Dependancies 
-used "nano" to connect to couch database
-used "joi" to validate schema
-used "jsonwebtoken" for JWT authentication in login
-used "swagger-ui-express" to have swagger
+## Dependancies 
 
-Server
+used "```nano```" to connect to couch database. you can use ```couchbase```
+
+```bash
+npm install nano --save
+```
+or 
+
+```bash
+npm install couchbase --save
+```
+
+used "```joi```" to validate schema
+
+```bash
+npm install joi --save
+```
+
+used "```jsonwebtoken```" for JWT authentication in login
+
+```bash
+npm install jsonwebtoken --save
+```
+used "```swagger-ui-express```" to have swagger
+
+```bash
+npm install swagger-ui-expres --save
+```
+used "```chai```" for unit testing
+
+```bash
+npm install swagger-ui-expres --save
+```
+Server -
+
     "async": "^3.1.0",
     "body-parser": "^1.19.0",
     "boom": "^7.3.0",
@@ -30,31 +60,32 @@ Server
     "mocha": "^6.2.2",
     "nano": "^8.1.0" 
     "swagger-ui-express": "^4.1.2"
+    
+Client -
 
-Client
     "bootstrap": "^4.4.1",
     "react-redux": "^7.1.3",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2"
 
-Folder Structure
+## Folder Structure
 
-Server 
+Server
 
-        src
+        src       
         |
         -----| app.js  
         -----| api
                 |
-                ------| controller
+                ------| controller    
                             |
                             ------| incident.js
                             ------| user.js
-                ------| routes
+                ------| routes        API routing
                             |
                             ------| incident.js
                             ------| user.js
-                ------| services
+                ------| services 
                             |
                             ------| incident.service.js
                             ------| user.service.js
@@ -88,7 +119,7 @@ Server
         test
         |
 
-Server 
+Client
 
        src
         |
@@ -149,23 +180,22 @@ Docker
 Created each dockerfile for Server Client and Database and compose all to "docker-compose.yml" 
 docker build -t couchbase-custom ./server/database/dockerfile
 docker build -t node-custom ./server/
-docker-compose run -d --service-ports --name couchbase couchbase
+docker-compose run -d 
 
 Each incident have following status in its lifecycle
 
-NEW
-RE_OPENED
-ASSIGNED
-IN_PROGRESS
-RESOLVED
-CLOSED
-CANCELED
+NEW,
+RE_OPENED,
+ASSIGNED,
+IN_PROGRESS,
+RESOLVED,
+CLOSED,
+CANCELED,
 
-there will be multiple roles in the system, for now we use only 3
+there will be multiple roles in the system, for now we use only 2
 
-SERVICE_DESK
-INCIDENT_ANALYST
-INCIDENT_MANAGER
+ADMIN,
+USER
 
-can run swagger localhost:9000
+can run swagger https://localhost:9000
 
