@@ -1,13 +1,24 @@
 # IncidentManagement
 
 ## Installation and run application
-Client - 
+### Run database
+If you don’t have CouchDB already installed, you can head to the official website (http://couchdb.apache.org/) to download and install it.
+
+### Run server
+
+default port : 8080
+
 ```bash
-npm start
+cd server
+npm install && npm start
 ```
-Server - 
+### Run client
+
+default port : 3000 
+
 ```bash
-npm start
+cd client
+npm install && npm start
 ```
 
 ## Dependancies 
@@ -67,25 +78,8 @@ Client -
     "react-redux": "^7.1.3",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2"
-    
-# Run database
 
-If you don’t have CouchDB already installed, you can head to the official website (http://couchdb.apache.org/) to download and install it.
 
-# Run server
-
-default port : 8080
-
-```bash
-cd server
-npm install && npm start
-```
-# Run client
-
-```bash
-cd client
-npm install && npm start
-```
 ## Folder Structure
 
 Server
