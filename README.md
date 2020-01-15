@@ -1,13 +1,24 @@
 # IncidentManagement
 
 ## Installation and run application
-Client - 
+### Run database
+If you don’t have CouchDB already installed, you can head to the official website (http://couchdb.apache.org/) to download and install it.
+
+### Run server
+
+default port : 8080
+
 ```bash
-npm start
+cd server
+npm install && npm start
 ```
-Server - 
+### Run client
+
+default port : 3000 
+
 ```bash
-npm start
+cd client
+npm install && npm start
 ```
 
 ## Dependancies 
@@ -44,7 +55,7 @@ used "```chai```" for unit testing
 ```bash
 npm install swagger-ui-expres --save
 ```
-Server -
+### Server -
 
     "async": "^3.1.0",
     "body-parser": "^1.19.0",
@@ -61,67 +72,23 @@ Server -
     "nano": "^8.1.0" 
     "swagger-ui-express": "^4.1.2"
     
-Client -
+### Client -
 
     "bootstrap": "^4.4.1",
     "react-redux": "^7.1.3",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2"
 
+
 ## Folder Structure
 
-Server
+### Server
 
-        src       
-        |
-        -----| app.js  
-        -----| api
-                |
-                ------| controller    
-                            |
-                            ------| incident.js
-                            ------| user.js
-                ------| routes        API routing
-                            |
-                            ------| incident.js
-                            ------| user.js
-                ------| services 
-                            |
-                            ------| incident.service.js
-                            ------| user.service.js
-        -----| common
-                |
-                ------| authorization.js
-        -----| static
-                |
-                ------| roles.js
-        -----| utility
-                |
-                ------| util.js
-        | 
-        database
-        |
-        -----| connection.js
-        -----| createDatabse.js
-        -----| models
-                |
-                ------| incident.js
-                ------| user.js
-        -----| schemas
-                |
-                ------| user-schemas.js
-                ------| incident-schemas.js
-                ------| index.js
-        -----| views
-                |
-                ------| incident.js
-                ------| user.js
-        test
-        |
+![Image of server folder strcuture](https://github.com/sumaliJayasinghe/IncidentManagement/blob/master/images/server.png)
 
-Client
+### Client
 
-![Image of Yaktocat](https://github.com/sumaliJayasinghe/IncidentManagement/blob/master/images/Screenshot%202020-01-16%20at%2012.51.53%20AM.png)
+![Image of client folder strcuture](https://github.com/sumaliJayasinghe/IncidentManagement/blob/master/images/client.png)
         
 ## Docker
 
