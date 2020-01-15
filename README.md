@@ -175,22 +175,16 @@ Client
                            |------| incident-view.js
                            |------| index.js
         
-Docker
+## Docker
 
 Created each dockerfile for Server Client and Database and compose all to "docker-compose.yml" 
-docker build -t couchbase-custom ./server/database/dockerfile
-docker build -t node-custom ./server/
+
+```bash
+docker build -t incident-management-db ./server/database/
+docker build -t incident-management-server ./server/
+docker build -t incident-management-client ./server/
 docker-compose run -d 
-
-Each incident have following status in its lifecycle
-
-NEW,
-RE_OPENED,
-ASSIGNED,
-IN_PROGRESS,
-RESOLVED,
-CLOSED,
-CANCELED,
+```
 
 there will be multiple roles in the system, for now we use only 2
 

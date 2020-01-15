@@ -1,8 +1,12 @@
-import React, { Component, TextField } from 'react';
-
-import { Link, Redirect } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Error } from '../index';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Button, Container, Form, Row, Col } from 'react-bootstrap';
+import {
+    Button,
+    Container,
+    Form
+} from 'react-bootstrap';
 import {
     FormBuilder,
     FieldGroup,
@@ -11,6 +15,7 @@ import {
 } from "react-reactive-form";
 import { loginUser } from '../../../core/store/actions/userAction';
 import UserService from '../../../shared/services/service.user';
+import { logError } from '../../../core/store/actions/errorAction';
 
 class Login extends Component {
 
@@ -18,8 +23,8 @@ class Login extends Component {
         super(props);
 
         this.userService = new UserService();
-        this.login = this.login.bind(this);
 
+        this.login = this.login.bind(this);
         this.loginForm = FormBuilder.group({
             username: ["", Validators.required],
             password: ["", Validators.required],
@@ -38,8 +43,9 @@ class Login extends Component {
         if (this.loginForm.get('username').value && this.loginForm.get('username').value) {
             this.userService.loginUser(this.loginForm).then(item => {
                 this.props.login(item.data);
+                localStorage.setItem('user', JSON.stringify(item.data));
             }).catch(e => {
-                console.log(e);
+                this.props.logError(e.message)
             });
         }
     }
@@ -53,12 +59,13 @@ class Login extends Component {
 
     render() {
         return (<React.Fragment>
+            <Error />
             <Container maxWidth="sm" className="login-container" >
                 <h2 className="content-center">Incident Management</h2>
                 <FieldGroup
                     control={this.loginForm}
                     render={({ get, invalid }) => (
-                        <form onSubmit={this.login}>
+                        <form onSubmit={this.login} className="login-form">
                             <FieldControl
                                 name="username"
                                 render={({ handler, touched, hasError }) => (
@@ -102,7 +109,8 @@ const mpaStateToProps = state => ({
 })
 
 const mpaActionToProps = {
-    login: loginUser
+    login: loginUser,
+    logError: logError
 };
 
 export default connect(mpaStateToProps, mpaActionToProps)(Login);

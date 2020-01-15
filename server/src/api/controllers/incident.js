@@ -35,7 +35,12 @@ var getIncidents = (req, res) => {
 var createIncident = (req, res) => {
     // set unique incident ID
     req.body.incidentId = "IN_" + util.generateId();
+    req.body.status = {
+        code: "NEW",
+        description: "New"
+    }
 
+    console.log(req.body)
     incidents.create(req.body, (err, data) => {
         if (err) {
             throw err;

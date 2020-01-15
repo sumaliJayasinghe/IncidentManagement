@@ -6,10 +6,8 @@ import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './core/store/store'
 import { Provider } from "react-redux"
-import { Route, Redirect, BrowserRouter as Router, Switch } from 'react-router-dom';
-import { Header, Error } from './components/core/index';
-import history from './history';
-import { PrivateLayout, LoginLayout } from './views';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
+import { PrivateLayout } from './views';
 
 const initstore = store();
 
@@ -19,8 +17,7 @@ function requireLogin() {
 
 const routing = (
     <Provider store={initstore}>
-        <Router history={history}>
-            <Error />
+        <Router>
             <div>
                 <Route path='/' component={PrivateLayout} onEnter={requireLogin} />
                 <Route exact path='/login' component={App} />

@@ -22,12 +22,15 @@ var authenticate = (req, res, next) => {
     var decryptedData = depassword.toString(CryptoJS.enc.Utf8);
 
     users.getUsersById(req.body.username, (err, result) => {
-        let data = result.data;
+        console.log("result");
         console.log(result);
-        // PRIVATE key
-        var privateKEY = fs.readFileSync(path.resolve('src/api/controllers/private.key'), 'utf8');
+        let data = (result && result != undefined) ? result.data : null;
 
-        if (data && !data.password) {
+        console.log(data);
+        // PRIVATE key
+        var privateKEY = fs.readFileSync(path.resolve('accessKey/private.key'), 'utf8');
+
+        if (!data || (data && !data.password)) {
             var err = Boom.unauthorized('User not found');
             return next(err);
         } else {

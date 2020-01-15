@@ -1,112 +1,226 @@
-import store from '../../../core/store/store';
 import React, { Component } from 'react';
 import { Button, Container, Form, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-
-const EnquiryResult = () => <Button className="btn" variant="danger" type="submit">Delete</Button>;
+import IncidentService from '../../../shared/services/service.incident';
+import {
+    FormBuilder,
+    FieldGroup,
+    FieldControl,
+    Validators,
+} from "react-reactive-form";
+import IncidentView from './incident-edit-view';
+import { logError } from '../../../core/store/actions/errorAction';
 
 class Incident extends Component {
+    state = {
+        edit: false
+    }
 
     constructor(props) {
         super(props);
-        console.log(this.props)
-        this.handleSubmitIncident = this.handleSubmitIncident.bind(this);
-        this.incident = {}
+
+        this.incidentService = new IncidentService();
+
+        this.submitForm = this.submitForm.bind(this);
+
+        this.incident = {};
 
         if (this.props.incidents.selectedIncident.incidentId) {
-            this.incident = this.props.incidents.selectedIncident
+            this.incident = this.props.incidents.selectedIncident;
         }
 
-    }
-
-    handleSubmitIncident(event) {
-
-        console.log(this.props)
-        alert("test")
-        event.preventDefault();
-        const data = new FormData(event.target);
-
-        fetch('/api/form-submit-url', {
-            method: 'POST',
-            body: data,
+        this.incidentForm = FormBuilder.group({
+            title: ["", Validators.required],
+            category: ["", Validators.required],
+            priority: ["", Validators.required],
+            description: [""],
+            assignee: ["", Validators.required]
         });
     }
 
-    getSelectedCategory(e) {
-        console.log(e.target.value)
+    edit = () => {
+        this.setState({
+            edit: true
+        })
     }
 
+    // form submission
+    submitForm(e) {
+        e.preventDefault();
+
+        this.incidentService.createIncident(this.incidentForm).then(item => {
+            this.loginForm.reset();
+        }).catch(e => {
+            this.props.logError(e.message)
+        });
+    }
+
+    // render edit incident view dynamacally
+    renderEditView = () => {
+        if (this.props.incidents.selectedIncident && this.props.incidents.selectedIncident.incidentId && !this.state.edit) {
+            let displayValue = {
+                title: this.props.incidents.selectedIncident.title,
+                category: this.props.incidents.selectedIncident.category,
+                priority: this.props.incidents.selectedIncident.priority,
+                description: this.props.incidents.selectedIncident.description,
+                status: this.props.incidents.selectedIncident.status.description,
+                createdDate: this.props.incidents.selectedIncident.createDate,
+                assignee: this.props.incidents.selectedIncident.assignee.fullname
+            }
+            return <IncidentView {...displayValue} className="t-view" />
+
+        } else {
+            console.log(this.incidentForm)
+            return <FieldGroup
+                control={this.incidentForm}
+                render={({ get, invalid }) => (
+                    <form onSubmit={this.submitForm} className="t-view">
+                        <FieldControl
+                            name="title"
+                            render={({ handler, touched, hasError }) => (
+                                <Form.Group controlId="title">
+                                    <Form.Label>Title *</Form.Label>
+                                    <Form.Control type="text" {...handler()} />
+                                    <Form.Text className="text-error">
+                                        {touched
+                                            && hasError("required")
+                                            && "Title is required."}
+                                    </Form.Text>
+                                </Form.Group>
+                            )} />
+                        <Row><Col xs={6}>
+                            <FieldControl
+                                name="category"
+                                render={({ handler, touched, hasError }) => (
+                                    <Form.Group controlId="category">
+                                        <Form.Label>Category *</Form.Label>
+                                        <Form.Control as="select" {...handler(this.props.incidents.selectedIncident.category)}
+                                        >
+                                            <option value="" >Please select</option>
+                                            <option value="Cat_1" >Cat_1</option>
+                                            <option value="Cat_2" >Cat_2</option>
+                                            <option value="Cat_3" >Cat_3</option>
+                                            <option value="Cat_4" >Cat_4</option>
+                                            <option value="Cat_5" >Cat_5</option>
+                                        </Form.Control>
+                                        <Form.Text className="text-error">
+                                            {touched
+                                                && hasError("required")
+                                                && "category is required."}
+                                        </Form.Text>
+                                    </Form.Group>
+                                )} />
+                        </Col><Col xs={6}>
+                                <FieldControl
+                                    name="priority"
+                                    render={({ handler, touched, hasError }) => (
+                                        <Form.Group controlId="priority">
+                                            <Form.Label>priority</Form.Label>
+                                            <Form.Control as="select" {...handler()} defaultValue={this.props.incidents.selectedIncident.category}
+                                            >
+                                                <option value="">Please select</option>
+                                                <option value="P1">P1</option>
+                                                <option value="P2">P2</option>
+                                                <option value="P3">P3</option>
+                                                <option value="P4">P4</option>
+                                                <option value="P5">P5</option>
+                                            </Form.Control>
+                                            <Form.Text className="text-error">
+                                                {touched
+                                                    && hasError("required")
+                                                    && "Priority is required."}
+                                            </Form.Text>
+                                        </Form.Group>
+                                    )} />
+                            </Col></Row>
+                        <Row>
+                            <Col xs={6}>
+                                <FieldControl
+                                    name="status"
+                                    render={({ handler, touched, hasError }) => (
+                                        <Form.Group controlId="status">
+                                            <Form.Label>Status</Form.Label>
+                                            <p className="view-text-value">New</p>
+                                        </Form.Group>
+                                    )} />
+                            </Col>
+                            <Col xs={6}>
+                                <FieldControl
+                                    name="createdDate"
+                                    render={({ handler, touched, hasError }) => (
+                                        <Form.Group controlId="createdDate">
+                                            <Form.Label>Created Date</Form.Label>
+                                            <p className="view-text-value">2020-01-20</p>
+                                        </Form.Group>
+                                    )} />
+                            </Col>
+                        </Row>
+                        <FieldControl
+                            name="description"
+                            render={({ handler, touched, hasError }) => (
+                                <Form.Group controlId="description">
+                                    <Form.Label>Description *</Form.Label>
+                                    <Form.Control as="textarea" {...handler()} rows="3"
+                                    />
+                                </Form.Group>
+                            )} />
+
+                        <Row><Col xs={6}>
+                            <FieldControl
+                                name="assignee"
+                                render={({ handler, touched, hasError }) => (
+                                    <Form.Group controlId="assignee">
+                                        <Form.Label>Assignee *</Form.Label>
+                                        <Form.Control as="select" {...handler()} defaultValue={this.props.incidents.selectedIncident.category}
+                                        >
+                                            <option value="">Please select</option>
+                                            <option value="sgsj001">Suki Andrew</option>
+                                            <option value="us2">User2</option>
+                                            <option value="us3">User3</option>
+                                            <option value="us4">User4</option>
+                                            <option value="us5">User5</option>
+                                        </Form.Control>
+                                        <Form.Text className="text-error">
+                                            {touched
+                                                && hasError("required")
+                                                && "Assignee is required."}
+                                        </Form.Text>
+                                    </Form.Group>
+                                )} />
+                        </Col></Row>
+                        <div className="content-right">
+                            <Button variant="primary" type="submit" onClick={this.login_1} className="login-button">
+                                Submit
+                    </Button>
+                        </div>
+                    </form>
+                )} />
+        }
+
+    }
     render() {
         return (
             <Container className="t-view">
                 <div className="title">
-                    <h4>Create Ticket</h4>
+                    {(this.props.incidents.selectedIncident && this.props.incidents.selectedIncident.incidentId) ?
+                        <h4>Ticket : [{this.props.incidents.selectedIncident.incidentId}]</h4>
+                        : <h4>Create Ticket </h4>}
                 </div>
-                <Form className="t-view" onSubmit={this.handleSubmitIncident}>
-                    <Form.Group controlId="exampleForm.ControlTextarea1">
-                        <Form.Label className="text-label text-monospace">Title</Form.Label>
-                        <Form.Control as="textarea" rows="1" value={this.props.incidents.selectedIncident.title}
-                            onChange={this.getSelectedCategory} />
-                    </Form.Group>
-                    <Row>
-                        <Col xs={6}><Form.Group controlId="exampleForm.ControlSelect1">
-                            <Form.Label className="text-label text-monospace">Category</Form.Label>
-                            <Form.Control as="select" defaultValue={this.props.incidents.selectedIncident.category}
-                                onChange={this.getSelectedCategory}>
-                                <option value="" >Please select</option>
-                                <option value="1" >Type1</option>
-                                <option value="2" >Type2</option>
-                                <option value="3" >Type3</option>
-                                <option value="4" >Type4</option>
-                                <option value="5" >Type5</option>
-                            </Form.Control>
-                        </Form.Group></Col>
-                        <Col xs={6}> <Form.Group controlId="exampleForm.ControlSelect1">
-                            <Form.Label className="text-label text-monospace">Priority</Form.Label>
-                            <Form.Control as="select" defaultValue={this.props.incidents.selectedIncident.category}
-                                onChange={this.getSelectedCategory}>
-                                <option value="">Please select</option>
-                                <option value="1">P1</option>
-                                <option value="2">P2</option>
-                                <option value="3">P3</option>
-                                <option value="4">P4</option>
-                                <option value="5">P5</option>
-                            </Form.Control>
-                        </Form.Group></Col>
-                    </Row>
-
-
-                    <Form.Group controlId="exampleForm.ControlTextarea1">
-                        <Form.Label className="text-label text-monospace">Description</Form.Label>
-                        <Form.Control as="textarea" rows="3" value={this.props.incidents.selectedIncident.decription}
-                            onChange={this.getSelectedCategory} />
-                    </Form.Group>
-                    <Row>
-                        <Col xs={6}> <Form.Group controlId="exampleForm.ControlSelect2">
-                            <Form.Label className="text-label text-monospace">Assignee</Form.Label>
-                            <Form.Control as="select" defaultValue="Mark" defaultValue={this.props.incidents.selectedIncident.category}
-                                onChange={this.getSelectedCategory}>
-                                <option value="">Please select</option>
-                                <option value="us1">User1</option>
-                                <option value="us2">User2</option>
-                                <option value="us3">User3</option>
-                                <option value="us4">User4</option>
-                                <option value="us5">User5</option>
-                            </Form.Control>
-                        </Form.Group></Col>
-                    </Row>
-
-                    <Button className="btn" variant="primary" type="submit">
-                        Submit
-                    </Button>
-
-                </Form>
+                {(this.props.incidents.selectedIncident && this.props.incidents.selectedIncident.incidentId && !this.state.edit) ?
+                    <Button variant="primary" onClick={this.edit}>Edit</Button>
+                    : null}
+                {this.renderEditView()}
             </Container>
         );
     }
 }
+
 const mpaStateToProps = state => ({
     incidents: state.incidents
+});
 
-})
-export default connect(mpaStateToProps)(Incident)
+const mpaActionToProps = {
+    logError: logError
+};
+
+export default connect(mpaStateToProps, mpaActionToProps)(Incident)

@@ -9,8 +9,8 @@ var by_incidentId = {
 
 var by_creator = {
     map: function (doc) {
-        if (doc.createBy.userId) {
-            emit(doc.createBy.userId);
+        if (doc.createdBy.userId) {
+            emit(doc.createdBy.userId);
         }
     }
 }

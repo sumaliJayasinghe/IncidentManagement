@@ -32,7 +32,7 @@ var updateAttributes = {
 };
 
 var createAttributes = extend({
-    createBy: Joi.object().keys({
+    createdBy: Joi.object().keys({
         fullname: Joi.string().max(70).required(),
         userId: Joi.string().alphanum().min(3).max(30).required(),
         email: Joi.string().email().required().required()

@@ -8,7 +8,7 @@ module.exports = initDatabase;
 
 // Initialize database
 function initDatabase(cb) {
-  async.series([createDatabases, createViews], cb);
+  createDatabases(cb);
 }
 
 // create all databases
@@ -18,10 +18,10 @@ function createDatabases(cb) {
 
 function createDatabase(db, cb) {
   couch.db.get(db).then((body) => {
-    console.log(db + " database exists");
+    createViews(cb)
   }, err => {
     couch.db.create(db, function (err, data) {
-      console.log("creating database: " + db);
+      createViews(cb)
       if (err) {
         if (err.statusCode == 412) {
           err = null;

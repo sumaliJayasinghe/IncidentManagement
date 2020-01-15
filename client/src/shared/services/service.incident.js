@@ -6,19 +6,41 @@ class IncidentService {
     /**
      * Create incident
      */
-    async createIncident() {
-        return fetch(this.config.POST_INCIDENT)
-            .then(response => {
-                if (!response.ok) {
-                    this.handleResponseError(response);
-                }
-                return response.json();
-            }).then(data => {
-                return data;
-            })
-            .catch(error => {
-                this.handleError(error);
-            });
+    async createIncident(data) {
+        let loggedInUser = JSON.parse(localStorage.getItem('user'));
+
+        let payload = {
+            "category": data.get("category").value,
+            "title": data.get("title").value,
+            "description": data.get("description").value,
+            "priority": data.get("priority").value,
+            "createdBy": {
+                "fullname": loggedInUser.fullName,
+                "userId": loggedInUser.userId,
+                "email": loggedInUser.email
+            },
+            "assignee": {
+                "fullname": loggedInUser.fullName,
+                "userId": loggedInUser.userId,
+                "email": loggedInUser.email
+            }
+        }
+
+        return fetch(this.config.POST_INCIDENT, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            if (data.status !== 200) {
+                return this.handleResponseError(data);
+            }
+            return data;
+        })
     }
     /**
      * Retrieve all incidents
@@ -31,36 +53,35 @@ class IncidentService {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            if (data.status !== 200) {
+                return this.handleResponseError(data);
+            }
+            return data;
         })
-            .then(response => {
-                if (!response.ok) {
-                    this.handleResponseError(response);
-                }
-                return response.json();
-            }).then(data => {
-                return data;
-            })
-            .catch(error => {
-                this.handleError(error);
-            });
     }
 
     /**
      * Retrieve incident by incident id
      */
-    async getIncidentsById() {
-        return fetch(this.config.GET_INCIDENT_BY_ID)
-            .then(response => {
-                if (!response.ok) {
-                    this.handleResponseError(response);
-                }
-                return response.json();
-            }).then(data => {
-                return data;
-            })
-            .catch(error => {
-                this.handleError(error);
-            });
+    async getIncidentsById(data) {
+        return fetch(this.config.GET_INCIDENT_BY_ID, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            if (data.status !== 200) {
+                return this.handleResponseError(data);
+            }
+            return data;
+        })
     }
 
     async getIncidentByCreator(data) {
@@ -71,25 +92,18 @@ class IncidentService {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            if (data.status !== 200) {
+                return this.handleResponseError(data);
+            }
+            return data;
         })
-            .then(response => {
-                if (!response.ok) {
-                    this.handleResponseError(response);
-                }
-                return response.json();
-            }).then(data => {
-                return data;
-            })
-            .catch(error => {
-                this.handleError(error);
-            });
     }
 
     handleResponseError(response) {
-        throw new Error("HTTP error, status = " + response.status);
-    }
-    handleError(error) {
-        console.log(error.message);
+        throw response;
     }
 }
 

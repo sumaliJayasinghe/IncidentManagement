@@ -1,6 +1,6 @@
 import constants from '../constants/incidentActionTypes'
+
 function createIncident(newIncident) {
-    console.log(newIncident)
     return {
         type: constants.CREATE_INCIDENT,
         payload: {
@@ -10,6 +10,7 @@ function createIncident(newIncident) {
 
     }
 }
+
 function getIncident(newIncident) {
     return {
         type: constants.SELECT_INCIDENT,
@@ -24,7 +25,7 @@ function getAllIncident(newIncident) {
         type: constants.LIST_INCIDENTS,
         payload: {
             incidents: newIncident,
-            selectedIncident: newIncident
+            selectedIncident: {}
         }
     }
 }

@@ -1,23 +1,36 @@
 import React, { Component } from 'react';
-import { Navbar, NavDropdown, Button, Nav, Form, Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import history from '../../../history';
-import { Link, Redirect } from 'react-router-dom';
+import { Alert } from 'react-bootstrap';
+import { logError } from '../../../core/store/actions/errorAction';
+
 class Error extends Component {
 
-
-    constructor(props) {
-        super(props);
+    setRender = () => {
+        if (this.props.errormessage) {
+            setTimeout(
+                function () {
+                    this.props.logError(null)
+                }
+                    .bind(this),
+                3000
+            );
+            return <Alert variant='danger'>{this.props.errormessage}</Alert>
+        }
     }
 
     render() {
         return (
-            <p>{this.props.errormessage}</p>);
+            <div> {this.setRender()}</div>
+        )
     }
-
 }
-const mpaStateTpProps = state => ({
-    errormessage: state.errorMessage
+
+const mpaStateTpProps = state => (console.log(state), {
+    errormessage: state.error.errorMessage
 });
 
-export default connect(mpaStateTpProps)(Error);
+const mpaActionToProps = {
+    logError: logError
+};
+
+export default connect(mpaStateTpProps, mpaActionToProps)(Error);

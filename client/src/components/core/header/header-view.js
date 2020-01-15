@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { Navbar, NavDropdown, Button, Nav, Form, Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import history from '../../../history';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect, NavLink } from 'react-router-dom';
+
 class Header extends Component {
 
     state = {
         redirect: false
-    }
-
-    constructor(props) {
-        super(props);
     }
 
     renderRedirect = () => {
@@ -24,23 +20,27 @@ class Header extends Component {
         })
     }
 
-    loadDashboard = () => {
-        history.push('/home');
+    goToHome = () => {
+        return <Redirect to={{ pathname: '/home' }} />
     }
 
     render() {
-        console.log(this.props.user)
         return (
             <Navbar className="bg-black" expand="lg">
                 <Container>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link className="link-home" href="/home" >Home</Nav.Link>
-                            <Nav.Link className="link-usermanagement" >User Management</Nav.Link>
+                            <NavLink className="link-home" to="/home" isActive={(match, location) => {
 
+                                if (!match) {
+                                    return false;
+                                }
+                            }
+                            }> Home</NavLink>
+                            <NavLink className="link-usermanagement" to="/home" activeClassName="selectedLink">User Management</NavLink>
                         </Nav>
-                        {this.props.user.userId && this.props.user.role.code == "ADMIN" ?
+                        {this.props.user.userId && this.props.user.role.code === "ADMIN" ?
                             <Form inline>
                                 <Button variant="outline-success" onClick={this.setRedirect}>Create New</Button>
                                 {this.renderRedirect()}
@@ -59,7 +59,6 @@ class Header extends Component {
             </Navbar>
         );
     }
-
 }
 
 const mpaStateTpProps = state => ({

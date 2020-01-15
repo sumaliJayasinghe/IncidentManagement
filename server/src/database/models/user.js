@@ -60,20 +60,22 @@ function getUsersByRole(id, cb) {
 function getUsersById(id, cb) {
     userDB.view('by_id', 'by_id', { 'key': id, 'include_docs': true },
         errors.wrapNano(function (err, result) {
-            if (err) {
-                cb(err);
-            } else {
-                console.log(result)
-                var res = {
-                    data: {}
-                }
-                if (result && result.rows && result.rows.length > 0) {
-                    var res = {
-                        data: result.rows[0].doc
-                    }
-                }
-                console.log(res)
-                cb(null, res);
+            // if (err) {
+            //     console.log("nano error")
+            //     console.log(err)
+            //     cb(err)
+            // } else {
+            console.log(result)
+            var res = {
+                data: {}
             }
+            if (result && result.rows && result.rows.length > 0) {
+                var res = {
+                    data: result.rows[0].doc
+                }
+            }
+            console.log(res)
+            cb(null, res);
+            // }
         }));
 };
