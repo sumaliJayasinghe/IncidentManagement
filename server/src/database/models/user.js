@@ -1,6 +1,6 @@
 var userDB = require('../connection').use('users');
 var schemas = require('../schemas');
-var errors = require('../errors');
+var errors = require('../../common/boom-errors');
 var diff = require('object-versions').diff;
 
 module.exports = {
@@ -63,9 +63,16 @@ function getUsersById(id, cb) {
             if (err) {
                 cb(err);
             } else {
+                console.log(result)
                 var res = {
-                    data: result.rows[0].doc
+                    data: {}
                 }
+                if (result && result.rows && result.rows.length > 0) {
+                    var res = {
+                        data: result.rows[0].doc
+                    }
+                }
+                console.log(res)
                 cb(null, res);
             }
         }));

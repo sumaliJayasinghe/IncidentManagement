@@ -29,3 +29,25 @@ code {
 }
 .navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {
   color: rgb(255, 255, 255) !important;}
+
+  .login-form{
+    padding: 3rem 10rem;
+  }
+  .login-button{
+    width:100%;
+  }
+  .text-error {
+    color: #bd2130!important;
+    font-weight: 600;
+}
+@media (min-width: 992px){
+  .login-container{
+    max-width: 540px !important;
+  }
+}
+.td-center{
+  text-align: center;
+}
+.pagination-align{
+  float: right;
+}

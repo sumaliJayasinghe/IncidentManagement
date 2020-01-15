@@ -6,29 +6,24 @@ import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './core/store/store'
 import { Provider } from "react-redux"
-import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom';
-import { Header } from './components/core';
+import { Route, Redirect, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { Header, Error } from './components/core/index';
 import history from './history';
 import { PrivateLayout, LoginLayout } from './views';
 
 const initstore = store();
 
-
-const PublicLayout = (props) => (<div>
-    <Header />
-    <Switch>
-        {/* <Route exact path='/signin' component={SigninForm} />
-        <Route exact path='/signup' component={Signup} /> */}
-    </Switch></div>);
-
+function requireLogin() {
+    console.log(initstore.getState());
+}
 
 const routing = (
     <Provider store={initstore}>
         <Router history={history}>
+            <Error />
             <div>
-                <Route path='/' component={PrivateLayout} />
+                <Route path='/' component={PrivateLayout} onEnter={requireLogin} />
                 <Route exact path='/login' component={App} />
-                {/* <Route path="incident/:id" component={Incident} /> */}
             </div>
         </Router>
     </Provider>

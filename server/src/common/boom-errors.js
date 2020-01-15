@@ -4,7 +4,7 @@ exports.wrapNano = function wrapNanoError(cb) {
     return function (err) {
         if (err) {
             console.log(err)
-            Boom.wrap(err, err.statusCode || 500);
+            Boom.badImplementation('terrible implementation');
         }
         cb.apply(null, arguments);
     };

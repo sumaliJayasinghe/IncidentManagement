@@ -1,14 +1,16 @@
 {
     "development": {
-        "DBHost": "http://127.0.0.1:8091",
-        "node_port": 8000,
+        "DBHost": "http://127.0.0.1:5984",
+        "node_port": 8080,
         "jwtKey": "my_secret_key",
-        "jwtExpirySeconds": 300
+        "jwtExpirySeconds": 300,
+        "pwdEncryptKey": "mysecretkey"
     },
     "production": {
-        "DBHost": "http://127.0.0.1:8091",
+        "DBHost": "http://127.0.0.1:5984",
         "node_port": 3000,
         "jwtKey": "my_prd_secret_key",
-        "jwtExpirySeconds": 300
+        "jwtExpirySeconds": 300,
+        "pwdEncryptKey": "mysecretkey"
     }
 }

@@ -1,4 +1,4 @@
-var initCouch = require('../database/createDatabase'); var api = require('./api')
+var initCouch = require('./database/createDatabase'); var api = require('./api')
 var express = require('express')
 const app = express();
 var bodyParser = require('body-parser');
@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('../swagger.json');
 const config = require('../config/config.js');
+var errorhandler = require('../src/common/errorHandler');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -20,23 +21,18 @@ app.use(function (req, res, next) {
     next();
 });
 
+
 app.get('/', (req, res) => {
     res.json(global.gConfig);
 });
 
 initCouch(function (err, res) {
-    if (err) {
-        throw err
-    }
-    else {
-        console.log(res)
-        console.log('couchdb initialized');
-    }
+    console.log('couchdb initialized');
 });
 
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.listen(global.gConfig.node_port);
 app.use('/api/v1', api);
+app.use(errorhandler);
 
+app.listen(global.gConfig.node_port, () => console.log(`Example app listening on port ${global.gConfig.node_port}!`));
 module.exports = app; // for testing

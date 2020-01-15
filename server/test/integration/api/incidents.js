@@ -1,9 +1,9 @@
 process.env.NODE_ENV = 'test';
-let sampleRequests = require("./testData")
+let sampleRequests = require("../../fixtures/testData")
 //Require the dev-dependencies
 let chai = require('chai');
 let chaiHttp = require('chai-http');
-let app = require('../src/app');
+let app = require('../../../src/app');
 
 chai.use(chaiHttp);
 describe('Incident', () => {

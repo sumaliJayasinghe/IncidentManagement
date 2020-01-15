@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
-import Login from '../core/login/login-view';
+import { Login } from '../core/index';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {

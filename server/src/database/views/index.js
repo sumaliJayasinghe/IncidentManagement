@@ -42,7 +42,7 @@ function populateDB(dbName, cb) {
         var dbDocName = '_design/' + viewName;
         db.get(dbDocName, (err, ddoc) => {
             if (err && err.statusCode == 404) {
-                insertDbDoc(null, viewName, db)
+                insertDbDoc(null, viewName, cb)
             } else if (err) {
                 console.log(err)
                 cb(err);
@@ -59,6 +59,8 @@ function populateDB(dbName, cb) {
 
 }
 
-exports.populate = function populate(cb) {
-    async.each(databaseNames, populateDB, cb)
+function populate(cb) {
+    async.each(databaseNames, populateDB, cb);
 }
+
+exports.populate = populate;

@@ -1,4 +1,4 @@
-var incidents = require('../../../database/models/incident');
+var incidents = require('../../database/models/incident');
 var util = require('../../utility/util')
 
 /**
@@ -17,7 +17,7 @@ var getAllIncidents = (req, res) => {
 }
 
 var getIncidents = (req, res) => {
-    console.log(req.body)
+    console.log(req.cookies)
     incidents.getIncidents(req.body, (err, data) => {
         if (err) {
             throw err;
@@ -78,14 +78,20 @@ var getIncidentsById = (req, res) => {
 /**
  * /incidents/getIncidentByCreatorId
  * get incident by creator userId
- * @param {object} req request
+ * @param {object} req request 
+ * { creatorId:"",
+ *   limit:0,
+ *   page:0
+ * }
  * @param {object} res response
  */
-var getIncidentByCreatorId = (req, res) => {
-    incidents.getIncidentByCreator(req.body.creatorId, (err, data) => {
+var getIncidentsByCreatorId = (req, res) => {
+    incidents.getIncidentByCreator(req.body, (err, data) => {
         if (err) {
+            console.log(err)
             throw err;
         }
+        console.log(data)
         res.send(util.structureResponse(200, data));
     })
 }
@@ -128,6 +134,6 @@ module.exports = {
     getIncidentsById: getIncidentsById,
     getIncidentByAsigneeId: getIncidentByAsigneeId,
     updateIncident: updateIncident,
-    getIncidentByCreatorId: getIncidentByCreatorId,
+    getIncidentsByCreatorId: getIncidentsByCreatorId,
     deleteIncident: deleteIncident
 }

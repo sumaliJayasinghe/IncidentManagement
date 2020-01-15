@@ -1,6 +1,6 @@
 var incidentsDB = require('../connection').use('incidents');
 var schemas = require('../schemas');
-var errors = require('../errors');
+var errors = require('../../common/boom-errors');
 var diff = require('object-versions').diff;
 
 module.exports = {
@@ -102,19 +102,23 @@ function getIncidents(req, cb) {
  * @param {*} id incident id
  * @param {*} cb callback function
  */
-function getIncidentById(id, cb) {
-    incidentsDB.view('by_incidentId', 'by_incidentId', { 'key': id, 'include_docs': true },
+function getIncidentById(req, cb) {
+    incidentsDB.view('by_incidentId', 'by_incidentId', {
+        'key': req.id, 'include_docs': true, "limit": req.limit,
+        "skip": (req.page == 1) ? 0 : req.page * req.limit
+    },
         errors.wrapNano(function (err, result) {
             if (err) {
                 cb(err);
             } else {
-                var res = {
-                    dataList: []
-                }
+                // var res = {
+                var dataList = []
+                // }
                 result.rows.forEach(row => {
-                    res.dataList.push(row.doc)
+                    if (row.doc.incidentId)
+                        dataList.push(row.doc)
                 });
-                cb(null, res);
+                cb(null, dataList);
             }
         }));
 };
@@ -134,19 +138,23 @@ function deleteIncident(id, rev, cb) {
  * @param {*} id assignee user id
  * @param {*} cb callabck function
  */
-function getIncidentByAssignee(id, cb) {
-    incidentsDB.view('by_asignee', 'by_asignee', { 'key': id, 'include_docs': true },
+function getIncidentByAssignee(req, cb) {
+    incidentsDB.view('by_asignee', 'by_asignee', {
+        'key': id, 'include_docs': true, "limit": req.limit,
+        "skip": (req.page == 1) ? 0 : req.page * req.limit
+    },
         errors.wrapNano(function (err, result) {
             if (err) {
                 cb(err);
             } else {
-                var res = {
-                    dataList: []
-                }
+                // var res = {
+                var dataList = []
+                // }
                 result.rows.forEach(row => {
-                    res.dataList.push(row.doc)
+                    if (row.doc.incidentId)
+                        dataList.push(row.doc)
                 });
-                cb(null, res);
+                cb(null, dataList);
             }
         }));
 };
@@ -156,19 +164,27 @@ function getIncidentByAssignee(id, cb) {
  * @param {*} id creatoe user id 
  * @param {*} cb callback function
  */
-function getIncidentByCreator(id, cb) {
-    incidentsDB.view('by_creator', 'by_creator', { keys: [id], include_docs: true },
+function getIncidentByCreator(req, cb) {
+    console.log(req)
+    incidentsDB.view('by_creator', 'by_creator', {
+        "key": req.creatorId, "include_docs": true, "limit": 10,
+        "skip": (req.page == 1) ? 0 : req.page * 10
+    },
         errors.wrapNano(function (err, result) {
             if (err) {
+                console.log(err)
                 cb(err);
             } else {
-                var res = {
-                    dataList: []
-                }
+                console.log(result)
+                let totalpages = (result.total_rows > 10) ? Math.floor(result.total_rows / 1) : 1;
+                // var res = {
+                var dataList = []
+                // }
                 result.rows.forEach(row => {
-                    res.dataList.push(row.doc)
+                    if (row.doc.incidentId)
+                        dataList.push(row.doc)
                 });
-                cb(null, res);
+                cb(null, { dataList: dataList, totalpages: totalpages });
             }
         }));
 };

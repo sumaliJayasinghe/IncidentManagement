@@ -144,6 +144,13 @@ Server
                            |------| incident-view.js
                            |------| index.js
         
+Docker
+
+Created each dockerfile for Server Client and Database and compose all to "docker-compose.yml" 
+docker build -t couchbase-custom ./server/database/dockerfile
+docker build -t node-custom ./server/
+docker-compose run -d --service-ports --name couchbase couchbase
+
 Each incident have following status in its lifecycle
 
 NEW

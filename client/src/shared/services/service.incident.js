@@ -63,8 +63,15 @@ class IncidentService {
             });
     }
 
-    async getIncidentsByCreatorId() {
-        return fetch(this.config.GET_INCIDENT_BY_ID)
+    async getIncidentByCreator(data) {
+        return fetch(this.config.GET_INCIDENT_BY_CREATOR_ID, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
             .then(response => {
                 if (!response.ok) {
                     this.handleResponseError(response);

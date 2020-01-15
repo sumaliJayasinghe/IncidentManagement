@@ -2,27 +2,26 @@ import React, { Component } from 'react';
 import { Navbar, NavDropdown, Button, Nav, Form, Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import history from '../../../history';
+import { Link, Redirect } from 'react-router-dom';
 class Header extends Component {
 
+    state = {
+        redirect: false
+    }
+
     constructor(props) {
-        console.log(props)
         super(props);
-        // this.onClicktry = this.onClicktry.bind(this)
     }
 
-
-    componentDidMount() {
-        //     fetch('http://localhost:8000/api/v1/incidents/getIncidents')
-        //         .then(res => res.json())
-        //         .then((data) => {
-        //             console.log(data)
-        //             this.props.onUpdateincidentList(data)
-        //         })
-        //         .catch(console.log)
+    renderRedirect = () => {
+        if (this.state.redirect)
+            return <Redirect to={{ pathname: '/incident' }} />
     }
 
-    redirect = () => {
-        history.push('/createIncident');
+    setRedirect = () => {
+        this.setState({
+            redirect: true
+        })
     }
 
     loadDashboard = () => {
@@ -30,11 +29,10 @@ class Header extends Component {
     }
 
     render() {
-        console.log(this.props.incidents.dataList)
+        console.log(this.props.user)
         return (
             <Navbar className="bg-black" expand="lg">
                 <Container>
-                    {/* <Navbar.Brand href="#home">Incident Management System</Navbar.Brand> */}
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
@@ -42,10 +40,12 @@ class Header extends Component {
                             <Nav.Link className="link-usermanagement" >User Management</Nav.Link>
 
                         </Nav>
-                        <Form inline>
-                            {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" /> */}
-                            <Button variant="outline-success" onClick={this.redirect}>Create New</Button>
-                        </Form>
+                        {this.props.user.userId && this.props.user.role.code == "ADMIN" ?
+                            <Form inline>
+                                <Button variant="outline-success" onClick={this.setRedirect}>Create New</Button>
+                                {this.renderRedirect()}
+                            </Form>
+                            : null}
                         <Nav>
                             <NavDropdown title="Settings" id="basic-nav-dropdown">
                                 <NavDropdown.Item href="#action/3.2">My Profile</NavDropdown.Item>
@@ -63,12 +63,8 @@ class Header extends Component {
 }
 
 const mpaStateTpProps = state => ({
-    incidents: state.incidents
-
-})
-
-// const mapActionsToProps = {
-//     onUpdateincidentList: createIncident
-// }
+    incidents: state.incidents,
+    user: state.user.loggedInUserDetail
+});
 
 export default connect(mpaStateTpProps)(Header);

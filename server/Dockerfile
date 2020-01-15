@@ -1,4 +1,4 @@
-FROM node:lts-slim
+FROM node:10
 
 RUN mkdir -p /usr/src/app
 
@@ -11,7 +11,7 @@ RUN npm install
 # Copy app source code
 COPY . .
 
-EXPOSE 8000
+EXPOSE 8080
 
 # You can change this
 CMD [ "npm", "start" ]
