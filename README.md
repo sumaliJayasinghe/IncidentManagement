@@ -121,59 +121,7 @@ Server
 
 Client
 
-       src
-        |
-        |-----| index.js  
-        |-----| core
-                |
-                |------| store
-                            |
-                            |------| actions
-                                        |
-                                        |------| incidentActions.js
-                                        |------| userActions.js
-                            |------| constants
-                                        |
-                                        |------| incidentActionTypes.js
-                                        |------| userActionTypes.js
-                            |------| reducers
-                                        |
-                                        |------| incidentReducer.js
-                                        |------| userReducer.js
-                |------| routes
-                            |
-                            |------| incident.js
-                            |------| user.js
-                |------| services
-                            |
-                            |------| incident.service.js
-                            |------| user.service.js
-        |-----| components
-                |
-                |------| app
-                          |
-                          |------| App.js
-                          |------| user.js
-                |------| core
-                          |
-                          |------| header
-                                    |
-                                    |------| header-view.js
-                                    |------| index.js
-                          |------| login
-                                    |
-                                    |------| login-view.js
-                                    |------| index.js
-        |-----| features
-                |
-                |------| dashboard
-                           |
-                           |------| dashboard-view.js
-                           |------| index.js
-                 |------| incident
-                           |
-                           |------| incident-view.js
-                           |------| index.js
+![Image of Yaktocat](https://github.com/sumaliJayasinghe/IncidentManagement/blob/master/images/Screenshot%202020-01-16%20at%2012.51.53%20AM.png)
         
 ## Docker
 
