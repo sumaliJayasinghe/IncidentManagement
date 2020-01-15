@@ -72,56 +72,11 @@ Client -
 
 Server
 
-        src       
-        |
-        -----| app.js  
-        -----| api
-                |
-                ------| controller    
-                            |
-                            ------| incident.js
-                            ------| user.js
-                ------| routes        API routing
-                            |
-                            ------| incident.js
-                            ------| user.js
-                ------| services 
-                            |
-                            ------| incident.service.js
-                            ------| user.service.js
-        -----| common
-                |
-                ------| authorization.js
-        -----| static
-                |
-                ------| roles.js
-        -----| utility
-                |
-                ------| util.js
-        | 
-        database
-        |
-        -----| connection.js
-        -----| createDatabse.js
-        -----| models
-                |
-                ------| incident.js
-                ------| user.js
-        -----| schemas
-                |
-                ------| user-schemas.js
-                ------| incident-schemas.js
-                ------| index.js
-        -----| views
-                |
-                ------| incident.js
-                ------| user.js
-        test
-        |
+![Image of server folder strcuture](https://github.com/sumaliJayasinghe/IncidentManagement/blob/master/images/server.png)
 
 Client
 
-![Image of Yaktocat](https://github.com/sumaliJayasinghe/IncidentManagement/blob/master/images/Screenshot%202020-01-16%20at%2012.51.53%20AM.png)
+![Image of client folder strcuture](https://github.com/sumaliJayasinghe/IncidentManagement/blob/master/images/client.png)
         
 ## Docker
 
