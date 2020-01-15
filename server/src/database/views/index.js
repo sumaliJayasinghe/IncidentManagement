@@ -30,8 +30,6 @@ function populateDB(dbName, cb) {
             if (err && err.statusCode == 409) {
                 ensureView(viewName, cb);
             } else {
-                // cb(err);
-                console.log(err)
                 cb(err);
             }
         });
@@ -44,7 +42,6 @@ function populateDB(dbName, cb) {
             if (err && err.statusCode == 404) {
                 insertDbDoc(null, viewName, cb)
             } else if (err) {
-                console.log(err)
                 cb(err);
             } else if (equal(ddoc.views[viewName], view)) {
                 cb()

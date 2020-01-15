@@ -10,6 +10,7 @@ import {
 } from "react-reactive-form";
 import IncidentView from './incident-edit-view';
 import { logError } from '../../../core/store/actions/errorAction';
+import { getIncident } from '../../../core/store/actions/incidentActions';
 
 class Incident extends Component {
     state = {
@@ -47,12 +48,27 @@ class Incident extends Component {
     // form submission
     submitForm(e) {
         e.preventDefault();
+        if (JSON.parse(localStorage.getItem('user')).role.code === "USER") {
+            this.props.incidents.selectedIncident.status = {
+                code: "RESOLVED",
+                description: "Resolved"
+            }
+            this.incidentService.updateIncident(this.props.incidents.selectedIncident).then(item => {
 
-        this.incidentService.createIncident(this.incidentForm).then(item => {
-            this.loginForm.reset();
-        }).catch(e => {
-            this.props.logError(e.message)
-        });
+                return this.incidentService.getIncidentsById({ page: 1, id: item.data.id })
+            }).then(result => {
+                this.props.selectIncident(result.data.data);
+            }).catch(e => {
+                this.props.logError(e.message)
+            });
+        } else {
+            this.incidentService.createIncident(this.incidentForm).then(item => {
+                this.loginForm.reset();
+            }).catch(e => {
+                this.props.logError(e.message)
+            });
+        }
+
     }
 
     // render edit incident view dynamacally
@@ -67,10 +83,12 @@ class Incident extends Component {
                 createdDate: this.props.incidents.selectedIncident.createDate,
                 assignee: this.props.incidents.selectedIncident.assignee.fullname
             }
-            return <IncidentView {...displayValue} className="t-view" />
+            return (<diiv><IncidentView {...displayValue} className="t-view" />
+                {(this.props.incidents.selectedIncident && this.props.incidents.selectedIncident.status.code != "RESOLVED") ? <Button variant="primary" type="submit" onClick={this.submitForm}>
+                    Resolve
+         </Button> : null}</diiv>)
 
         } else {
-            console.log(this.incidentForm)
             return <FieldGroup
                 control={this.incidentForm}
                 render={({ get, invalid }) => (
@@ -188,27 +206,36 @@ class Incident extends Component {
                                     </Form.Group>
                                 )} />
                         </Col></Row>
-                        <div className="content-right">
-                            <Button variant="primary" type="submit" onClick={this.login_1} className="login-button">
-                                Submit
-                    </Button>
-                        </div>
+                        <FieldControl
+                            name="remarks"
+                            render={({ handler, touched, hasError }) => (
+                                <Form.Group controlId="remarks">
+                                    <Form.Label>Remarks *</Form.Label>
+                                    <Form.Control as="textarea" {...handler()} rows="3"
+                                    />
+                                </Form.Group>
+                            )} />
+
+                        <Button variant="primary" type="submit">
+                            Submit
+                        </Button>
                     </form>
                 )} />
         }
-
     }
+
     render() {
         return (
             <Container className="t-view">
                 <div className="title">
                     {(this.props.incidents.selectedIncident && this.props.incidents.selectedIncident.incidentId) ?
-                        <h4>Ticket : [{this.props.incidents.selectedIncident.incidentId}]</h4>
+                        <div><h4>Ticket : {this.props.incidents.selectedIncident.title} [{this.props.incidents.selectedIncident.incidentId}]</h4> <hr /></div>
                         : <h4>Create Ticket </h4>}
                 </div>
-                {(this.props.incidents.selectedIncident && this.props.incidents.selectedIncident.incidentId && !this.state.edit) ?
+
+                {/* {(this.props.incidents.selectedIncident && this.props.incidents.selectedIncident.incidentId && !this.state.edit) ?
                     <Button variant="primary" onClick={this.edit}>Edit</Button>
-                    : null}
+                    : null} */}
                 {this.renderEditView()}
             </Container>
         );
@@ -216,11 +243,13 @@ class Incident extends Component {
 }
 
 const mpaStateToProps = state => ({
-    incidents: state.incidents
+    incidents: state.incidents,
+    selectedIncident: state.incidents.selectIncident
 });
 
 const mpaActionToProps = {
-    logError: logError
+    logError: logError,
+    selectIncident: getIncident
 };
 
 export default connect(mpaStateToProps, mpaActionToProps)(Incident)

@@ -34,5 +34,5 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/v1', api);
 app.use(errorhandler);
 
-app.listen(global.gConfig.node_port, () => console.log(`Example app listening on port ${global.gConfig.node_port}!`));
+app.listen(global.gConfig.node_port, () => console.log(`App listening on port ${global.gConfig.node_port}!`));
 module.exports = app; // for testing

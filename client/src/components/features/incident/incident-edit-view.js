@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Row, Col } from 'react-bootstrap';
+import { Form, Row, Col, Button } from 'react-bootstrap';
 
 const IncidentView = ({ title, category, priority, decription, status, createdDate, assignee }) => (
     <Form>
@@ -40,8 +40,6 @@ const IncidentView = ({ title, category, priority, decription, status, createdDa
                 <p className="view-text-value">{assignee}</p>
             </Form.Group>
         </Col></Row>
-
-
     </Form>
 );
 

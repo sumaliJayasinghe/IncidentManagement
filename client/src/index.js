@@ -11,15 +11,11 @@ import { PrivateLayout } from './views';
 
 const initstore = store();
 
-function requireLogin() {
-    console.log(initstore.getState());
-}
-
 const routing = (
     <Provider store={initstore}>
         <Router>
             <div>
-                <Route path='/' component={PrivateLayout} onEnter={requireLogin} />
+                <Route path='/' component={PrivateLayout} />
                 <Route exact path='/login' component={App} />
             </div>
         </Router>

@@ -22,11 +22,9 @@ var authenticate = (req, res, next) => {
     var decryptedData = depassword.toString(CryptoJS.enc.Utf8);
 
     users.getUsersById(req.body.username, (err, result) => {
-        console.log("result");
-        console.log(result);
+
         let data = (result && result != undefined) ? result.data : null;
 
-        console.log(data);
         // PRIVATE key
         var privateKEY = fs.readFileSync(path.resolve('accessKey/private.key'), 'utf8');
 
@@ -66,7 +64,6 @@ var authenticate = (req, res, next) => {
                 });
 
             } else {
-                console.log("error ----- ")
                 var err = Boom.unauthorized('invalid password');
                 return next(err);
             }

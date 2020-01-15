@@ -60,12 +60,6 @@ function getUsersByRole(id, cb) {
 function getUsersById(id, cb) {
     userDB.view('by_id', 'by_id', { 'key': id, 'include_docs': true },
         errors.wrapNano(function (err, result) {
-            // if (err) {
-            //     console.log("nano error")
-            //     console.log(err)
-            //     cb(err)
-            // } else {
-            console.log(result)
             var res = {
                 data: {}
             }
@@ -74,8 +68,6 @@ function getUsersById(id, cb) {
                     data: result.rows[0].doc
                 }
             }
-            console.log(res)
             cb(null, res);
-            // }
         }));
 };

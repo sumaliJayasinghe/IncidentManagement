@@ -1,5 +1,6 @@
 var incidents = require('../../database/models/incident');
-var util = require('../../utility/util')
+var util = require('../../utility/util');
+const Boom = require('boom');
 
 /**
  * /incidents/getIncidents
@@ -7,20 +8,21 @@ var util = require('../../utility/util')
  * @param {object} req request
  * @param {object} res response
  */
-var getAllIncidents = (req, res) => {
+var getAllIncidents = (req, res, next) => {
     incidents.getAll((err, data) => {
         if (err) {
-            throw err;
+            var err = Boom.badImplementation('An internal server error occurred');
+            return next(err);
         }
         res.send(util.structureResponse(200, data));
     })
 }
 
-var getIncidents = (req, res) => {
-    console.log(req.cookies)
+var getIncidents = (req, res, next) => {
     incidents.getIncidents(req.body, (err, data) => {
         if (err) {
-            throw err;
+            var err = Boom.badImplementation('An internal server error occurred');
+            return next(err);
         }
         res.send(util.structureResponse(200, data));
     })
@@ -32,7 +34,7 @@ var getIncidents = (req, res) => {
  * @param {object} req request
  * @param {object} res response
  */
-var createIncident = (req, res) => {
+var createIncident = (req, res, next) => {
     // set unique incident ID
     req.body.incidentId = "IN_" + util.generateId();
     req.body.status = {
@@ -40,10 +42,10 @@ var createIncident = (req, res) => {
         description: "New"
     }
 
-    console.log(req.body)
     incidents.create(req.body, (err, data) => {
         if (err) {
-            throw err;
+            var err = Boom.badImplementation('An internal server error occurred');
+            return next(err);
         }
         res.send(util.structureResponse(200, data));
     });
@@ -55,14 +57,14 @@ var createIncident = (req, res) => {
  * @param {object} req request
  * @param {object} res response
  */
-var getIncidentByAsigneeId = (req, res) => {
-    incidents.getIncidentByAssignee(req.body.asigneeId).then((data) => {
-        res.send(util.structureResponse(200, data));
-    }).catch(err => {
+var getIncidentByAsigneeId = (req, res, next) => {
+    incidents.getIncidentByAssignee(req.body, (err, data) => {
         if (err) {
-            throw err;
+            var err = Boom.badImplementation('An internal server error occurred');
+            return next(err);
         }
-    });
+        res.send(util.structureResponse(200, data));
+    })
 }
 
 /**
@@ -71,10 +73,11 @@ var getIncidentByAsigneeId = (req, res) => {
  * @param {object} req request
  * @param {object} res response
  */
-var getIncidentsById = (req, res) => {
-    incidents.getById(req.body.incidentId, (err, data) => {
+var getIncidentsById = (req, res, next) => {
+    incidents.getById(req.body, (err, data) => {
         if (err) {
-            throw err;
+            var err = Boom.badImplementation('Retrieve incident is fail');
+            return next(err);
         }
         res.send(util.structureResponse(200, data));
     })
@@ -90,13 +93,12 @@ var getIncidentsById = (req, res) => {
  * }
  * @param {object} res response
  */
-var getIncidentsByCreatorId = (req, res) => {
+var getIncidentsByCreatorId = (req, res, next) => {
     incidents.getIncidentByCreator(req.body, (err, data) => {
         if (err) {
-            console.log(err)
-            throw err;
+            var err = Boom.badImplementation('An internal server error occurred');
+            return next(err);
         }
-        console.log(data)
         res.send(util.structureResponse(200, data));
     })
 }
@@ -107,10 +109,11 @@ var getIncidentsByCreatorId = (req, res) => {
  * @param {object} req request
  * @param {object} res response
  */
-var updateIncident = (req, res) => {
+var updateIncident = (req, res, next) => {
     incidents.update(req.body, (err, data) => {
         if (err) {
-            throw err;
+            var err = Boom.badImplementation('An internal server error occurred');
+            return next(err);
         }
         res.send(util.structureResponse(200, data));
     })
@@ -122,10 +125,11 @@ var updateIncident = (req, res) => {
  * @param {object} req request
  * @param {object} res response
  */
-var deleteIncident = (req, res) => {
+var deleteIncident = (req, res, next) => {
     incidents.delete(req.body._id, req.body._rev, (err, data) => {
         if (err) {
-            throw err;
+            var err = Boom.badImplementation('An internal server error occurred');
+            return next(err);
         }
         res.send(util.structureResponse(200, data));
     })

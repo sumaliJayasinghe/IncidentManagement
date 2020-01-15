@@ -26,6 +26,7 @@ var updateUserAttributes = {
         }))
     }),
     password: Joi.string().max(60).required(),
+    passwordExpiryDate: Joi.string().max(60).required(),
     lastLoggedInDate: Joi.string().max(70)
 }
 

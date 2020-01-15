@@ -102,6 +102,42 @@ class IncidentService {
         })
     }
 
+    async getIncidentByAssignee(data) {
+        return fetch(this.config.GET_INCIDENT_BY_ASSIGNEE_ID, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            if (data.status !== 200) {
+                return this.handleResponseError(data);
+            }
+            return data;
+        })
+    }
+
+    async updateIncident(data) {
+        return fetch(this.config.UPDATE_INCIDENT, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            if (data.status !== 200) {
+                return this.handleResponseError(data);
+            }
+            return data;
+        })
+    }
+
     handleResponseError(response) {
         throw response;
     }

@@ -25,7 +25,7 @@ class Error extends Component {
     }
 }
 
-const mpaStateTpProps = state => (console.log(state), {
+const mpaStateTpProps = state => ({
     errormessage: state.error.errorMessage
 });
 
