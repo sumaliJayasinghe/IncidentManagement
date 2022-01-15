@@ -35,7 +35,7 @@
     "mocha": "^6.2.2",
     "nano": "^8.1.0",
     "object-versions": "^1.0.0",
-    "shelljs": "^0.8.3",
+    "shelljs": "^0.8.5",
     "swagger-ui-express": "^4.1.2",
     "winston": "^3.2.1"
   }
